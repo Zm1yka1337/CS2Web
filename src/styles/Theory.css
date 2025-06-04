@@ -807,3 +807,181 @@
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
   z-index: 2;
 }
+
+/* Стилі для таблиці теорії */
+.theory-table-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 2rem auto;
+  background-color: transparent;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.theory-table-body-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #4d94ff rgba(255, 255, 255, 0.1);
+  background-color: rgba(13, 17, 23, 0.8);
+  border-radius: 12px;
+}
+
+/* Стилізація скролбара */
+.theory-table-body-container::-webkit-scrollbar {
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.theory-table-body-container::-webkit-scrollbar-thumb {
+  background-color: #4d94ff;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.theory-table-body-container::-webkit-scrollbar-thumb:hover {
+  background-color: #66b3ff;
+}
+
+.theory-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.theory-table th {
+  background-color: #4d94ff;
+  padding: 1rem;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-align: left;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.theory-table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Розміри колонок */
+.theory-table th:nth-child(1),
+.theory-table td:nth-child(1) {
+  width: 180px;
+  min-width: 180px;
+}
+
+.theory-table td:nth-child(1) {
+  color: #66b3ff;
+  font-weight: 600;
+}
+
+.theory-table th:nth-child(2),
+.theory-table td:nth-child(2) {
+  width: 400px;
+  min-width: 400px;
+}
+
+.theory-table td:nth-child(2) {
+  color: #e6e6e6;
+}
+
+.theory-table th:nth-child(3),
+.theory-table td:nth-child(3) {
+  width: 180px;
+  min-width: 180px;
+}
+
+.theory-table td:nth-child(3) {
+  color: #7fff7f;
+}
+
+.theory-table th:nth-child(4),
+.theory-table td:nth-child(4) {
+  width: 180px;
+  min-width: 180px;
+}
+
+.theory-table td:nth-child(4) {
+  color: #ff7f7f;
+}
+
+.theory-table tr {
+  transition: background-color 0.3s ease;
+}
+
+.theory-table tr:hover {
+  background-color: rgba(77, 148, 255, 0.1);
+}
+
+/* Адаптивність */
+@media (max-width: 768px) {
+  .theory-table th,
+  .theory-table td {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  .theory-table th:nth-child(1),
+  .theory-table td:nth-child(1) {
+    width: 160px;
+    min-width: 160px;
+  }
+
+  .theory-table th:nth-child(2),
+  .theory-table td:nth-child(2) {
+    width: 300px;
+    min-width: 300px;
+  }
+
+  .theory-table th:nth-child(3),
+  .theory-table td:nth-child(3),
+  .theory-table th:nth-child(4),
+  .theory-table td:nth-child(4) {
+    width: 160px;
+    min-width: 160px;
+  }
+
+  .theory-table-body-container {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    cursor: grab;
+  }
+
+  .theory-table-body-container:active {
+    cursor: grabbing;
+  }
+}
+
+@media (max-width: 480px) {
+  .theory-table th,
+  .theory-table td {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .theory-table th:nth-child(1),
+  .theory-table td:nth-child(1) {
+    width: 140px;
+    min-width: 140px;
+  }
+
+  .theory-table th:nth-child(2),
+  .theory-table td:nth-child(2) {
+    width: 260px;
+    min-width: 260px;
+  }
+
+  .theory-table th:nth-child(3),
+  .theory-table td:nth-child(3),
+  .theory-table th:nth-child(4),
+  .theory-table td:nth-child(4) {
+    width: 140px;
+    min-width: 140px;
+  }
+}

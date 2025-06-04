@@ -75,48 +75,52 @@ function Theory() {
               </div>
 
               <h4>Advanced Peeking Concepts</h4>
-              <table className="theory-table">
-                <thead>
-                  <tr>
-                    <th>Technique</th>
-                    <th>Description</th>
-                    <th>Best Used For</th>
-                    <th>Counter Play</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Pre-aim Peek</td>
-                    <td>Peeking with crosshair already placed at head level</td>
-                    <td>Known positions</td>
-                    <td>Off-angle holding</td>
-                  </tr>
-                  <tr>
-                    <td>Flash Peek</td>
-                    <td>Peeking immediately after flashbang</td>
-                    <td>Site entry</td>
-                    <td>Look away/retreat</td>
-                  </tr>
-                  <tr>
-                    <td>Crouch Peek</td>
-                    <td>Peeking while crouched</td>
-                    <td>Surprising enemies</td>
-                    <td>Pre-aim low</td>
-                  </tr>
-                  <tr>
-                    <td>Double Peek</td>
-                    <td>Two players peeking same angle with slight delay</td>
-                    <td>Trading kills</td>
-                    <td>Quick repositioning</td>
-                  </tr>
-                  <tr>
-                    <td>Strafe Peek</td>
-                    <td>Peeking while strafing for momentum</td>
-                    <td>Dynamic entry</td>
-                    <td>Spray control</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div className="theory-table-container">
+                <div className="theory-table-body-container">
+                  <table className="theory-table">
+                    <thead>
+                      <tr>
+                        <th>TECHNIQUE</th>
+                        <th>DESCRIPTION</th>
+                        <th>BEST USED FOR</th>
+                        <th>COUNTER PLAY</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Pre-aim Peek</td>
+                        <td>Peeking with crosshair already placed at head level</td>
+                        <td>Known positions</td>
+                        <td>Off-angle holding</td>
+                      </tr>
+                      <tr>
+                        <td>Flash Peek</td>
+                        <td>Peeking immediately after flashbang</td>
+                        <td>Site entry</td>
+                        <td>Look away/retreat</td>
+                      </tr>
+                      <tr>
+                        <td>Crouch Peek</td>
+                        <td>Peeking while crouched</td>
+                        <td>Surprising enemies</td>
+                        <td>Pre-aim low</td>
+                      </tr>
+                      <tr>
+                        <td>Double Peek</td>
+                        <td>Two players peeking same angle with slight delay</td>
+                        <td>Trading kills</td>
+                        <td>Quick repositioning</td>
+                      </tr>
+                      <tr>
+                        <td>Strafe Peek</td>
+                        <td>Peeking while strafing for momentum</td>
+                        <td>Dynamic entry</td>
+                        <td>Spray control</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
 
               <h4>Peeking Timings</h4>
               <div className="flow-diagram">
@@ -263,48 +267,52 @@ function Theory() {
               </div>
 
               <h4>Basic Movement Techniques</h4>
-              <table className="theory-table">
-                <thead>
-                  <tr>
-                    <th>Technique</th>
-                    <th>Description</th>
-                    <th>Key Binds</th>
-                    <th>Difficulty</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Counter-strafing</td>
-                    <td>Stopping instantly by pressing opposite movement key</td>
-                    <td>A/D or W/S</td>
-                    <td>Medium</td>
-                  </tr>
-                  <tr>
-                    <td>Bunny hop</td>
-                    <td>Maintaining momentum through consecutive jumps</td>
-                    <td>Space + Strafe</td>
-                    <td>High</td>
-                  </tr>
-                  <tr>
-                    <td>Air-strafing</td>
-                    <td>Controlling movement in air</td>
-                    <td>Mouse + A/D</td>
-                    <td>High</td>
-                  </tr>
-                  <tr>
-                    <td>Crouch-jump</td>
-                    <td>Jumping while crouched for extra height</td>
-                    <td>Space + Ctrl</td>
-                    <td>Low</td>
-                  </tr>
-                  <tr>
-                    <td>Silent-walk</td>
-                    <td>Walking without making sound</td>
-                    <td>Shift</td>
-                    <td>Low</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div className="theory-table-container">
+                <div className="theory-table-body-container">
+                  <table className="theory-table">
+                    <thead>
+                      <tr>
+                        <th>TECHNIQUE</th>
+                        <th>DESCRIPTION</th>
+                        <th>KEY BINDS</th>
+                        <th>DIFFICULTY</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Counter-strafing</td>
+                        <td>Stopping instantly by pressing opposite movement key</td>
+                        <td>A/D or W/S</td>
+                        <td>Medium</td>
+                      </tr>
+                      <tr>
+                        <td>Bunny hop</td>
+                        <td>Maintaining momentum through consecutive jumps</td>
+                        <td>Space + Strafe</td>
+                        <td>High</td>
+                      </tr>
+                      <tr>
+                        <td>Air-strafing</td>
+                        <td>Controlling movement in air</td>
+                        <td>Mouse + A/D</td>
+                        <td>High</td>
+                      </tr>
+                      <tr>
+                        <td>Crouch-jump</td>
+                        <td>Jumping while crouched for extra height</td>
+                        <td>Space + Ctrl</td>
+                        <td>Low</td>
+                      </tr>
+                      <tr>
+                        <td>Silent-walk</td>
+                        <td>Walking without making sound</td>
+                        <td>Shift</td>
+                        <td>Low</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
 
               <div className="warning-box">
                 <strong>Remember:</strong> Moving while shooting drastically reduces accuracy. Always counter-strafe before shooting!
@@ -356,48 +364,52 @@ function Theory() {
               </div>
 
               <h4>Movement Speed Comparison</h4>
-              <table className="theory-table">
-                <thead>
-                  <tr>
-                    <th>State</th>
-                    <th>Speed (units/s)</th>
-                    <th>Sound Level</th>
-                    <th>Usage</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Running</td>
-                    <td>250</td>
-                    <td>Loud</td>
-                    <td>Fast rotations, rushing</td>
-                  </tr>
-                  <tr>
-                    <td>Walking</td>
-                    <td>130</td>
-                    <td>Quiet</td>
-                    <td>Close combat positioning</td>
-                  </tr>
-                  <tr>
-                    <td>Crouching</td>
-                    <td>85</td>
-                    <td>Silent</td>
-                    <td>Sneaking, accuracy</td>
-                  </tr>
-                  <tr>
-                    <td>Walking (Shift)</td>
-                    <td>100</td>
-                    <td>Silent</td>
-                    <td>Stealth movement</td>
-                  </tr>
-                  <tr>
-                    <td>Scoped AWP</td>
-                    <td>100</td>
-                    <td>Normal</td>
-                    <td>Holding angles</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div className="theory-table-container">
+                <div className="theory-table-body-container">
+                  <table className="theory-table">
+                    <thead>
+                      <tr>
+                        <th>STATE</th>
+                        <th>SPEED (UNITS/S)</th>
+                        <th>SOUND LEVEL</th>
+                        <th>USAGE</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Running</td>
+                        <td>250</td>
+                        <td>Loud</td>
+                        <td>Fast rotations, rushing</td>
+                      </tr>
+                      <tr>
+                        <td>Walking</td>
+                        <td>130</td>
+                        <td>Quiet</td>
+                        <td>Close combat positioning</td>
+                      </tr>
+                      <tr>
+                        <td>Crouching</td>
+                        <td>85</td>
+                        <td>Silent</td>
+                        <td>Sneaking, accuracy</td>
+                      </tr>
+                      <tr>
+                        <td>Walking (Shift)</td>
+                        <td>100</td>
+                        <td>Silent</td>
+                        <td>Stealth movement</td>
+                      </tr>
+                      <tr>
+                        <td>Scoped AWP</td>
+                        <td>100</td>
+                        <td>Silent</td>
+                        <td>Holding angles</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
 
               <h4>Movement Training</h4>
               <div className="flow-diagram">
