@@ -19,6 +19,7 @@ function UserProfilePage() {
   const [userData, setUserData] = useState(null);
   const [favoriteNades, setFavoriteNades] = useState([]);
   const [videoViewStats, setVideoViewStats] = useState({});
+  const [testResults, setTestResults] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -31,7 +32,10 @@ function UserProfilePage() {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         setCurrentUser(user);
-        await fetchUserProfileData(user.uid);
+        await Promise.all([
+          fetchUserProfileData(user.uid),
+          fetchTestResults(user.uid)
+        ]);
       } else {
         navigate('/login');
         setLoading(false);
@@ -39,6 +43,17 @@ function UserProfilePage() {
     });
     return () => unsubscribe();
   }, [navigate]);
+
+  const fetchTestResults = async (userId) => {
+    try {
+      const testResultsDoc = await getDoc(doc(db, "testResults", userId));
+      if (testResultsDoc.exists()) {
+        setTestResults(testResultsDoc.data());
+      }
+    } catch (err) {
+      console.error("Error loading test results:", err);
+    }
+  };
 
   const fetchUserProfileData = async (userId) => {
     setLoading(true);
@@ -70,7 +85,7 @@ function UserProfilePage() {
         setVideoViewStats(profileData.videoViews || {});
 
       } else {
-        console.warn("Документ користувача не знайдено в Firestore, використовуються дані з Auth.");
+        console.warn("User document not found in Firestore, using Auth data.");
         const authUser = auth.currentUser;
         if (authUser) {
             profileData = {
@@ -87,12 +102,12 @@ function UserProfilePage() {
             setFavoriteNades([]);
             setVideoViewStats({});
         } else {
-            setError("Не вдалося отримати дані користувача.");
+            setError("Failed to get user data.");
         }
       }
     } catch (err) {
-      console.error("Помилка завантаження даних профілю:", err);
-      setError("Не вдалося завантажити дані профілю. Спробуйте оновити сторінку.");
+      console.error("Error loading profile data:", err);
+      setError("Failed to load profile data. Try refreshing the page.");
       if (!userData && auth.currentUser) {
         const authUser = auth.currentUser;
         setUserData({
@@ -116,8 +131,8 @@ function UserProfilePage() {
     if (result.success) {
       setFavoriteNades(prevNades => prevNades.filter(n => !(n.mapId === mapId && n.nadeId === nadeId)));
     } else {
-      console.error("Помилка видалення з улюблених:", result.error);
-      alert("Не вдалося видалити гранату з улюблених.");
+      console.error("Error removing from favorites:", result.error);
+      alert("Failed to remove nade from favorites.");
     }
   };
 
@@ -132,7 +147,7 @@ function UserProfilePage() {
   };
 
   if (loading) {
-    return <div className="loading-container">Завантаження профілю...</div>;
+    return <div className="loading-container">Loading profile...</div>;
   }
 
   if (error && !userData) {
@@ -140,18 +155,28 @@ function UserProfilePage() {
   }
   
   if (!userData) {
-    return <div className="loading-container">Дані користувача не знайдено. Перенаправлення...</div>;
+    return <div className="loading-container">User data not found. Redirecting...</div>;
   }
 
+  const getTestCategoryName = (categoryId) => {
+    const categories = {
+      'peaks': 'Peaks & Angles',
+      'movement': 'Movement',
+      'sounds': 'Sound System',
+      'utility': 'Utility Usage'
+    };
+    return categories[categoryId] || categoryId;
+  };
+
   const formatDate = (dateString) => {
-    if (!dateString || dateString === 'N/A') return 'Невідомо';
+    if (!dateString || dateString === 'N/A') return 'Unknown';
     try {
       if (typeof dateString === 'object' && dateString.seconds) {
         return new Date(dateString.seconds * 1000).toLocaleDateString();
       }
       return new Date(dateString).toLocaleDateString();
     } catch (e) {
-      return 'Невідома дата';
+      return 'Unknown date';
     }
   };
 
@@ -159,7 +184,7 @@ function UserProfilePage() {
     const [mapId, nadeId] = viewKey.split('_');
     const mapData = localNadesData.find(m => m.id === mapId);
     const nadeData = mapData?.spots.flatMap(s => s.nades).find(n => n.id === nadeId);
-    return nadeData ? `${nadeData.title} (Мапа: ${mapData.name})` : `Невідома граната (${viewKey})`;
+    return nadeData ? `${nadeData.title} (Map: ${mapData.name})` : `Unknown nade (${viewKey})`;
   };
 
   const totalViews = Object.values(videoViewStats).reduce((sum, count) => sum + count, 0);
@@ -172,16 +197,45 @@ function UserProfilePage() {
             <img src={userData.photoURL} alt={userData.displayName || 'Avatar'} className="profile-avatar" />
           )}
           <div className="profile-summary">
-            <h1>{userData.displayName || 'Профіль'}</h1>
+            <h1>{userData.displayName || 'Profile'}</h1>
             <p><strong>Email:</strong> {userData.email}</p>
-            <p><strong>Дата реєстрації:</strong> {formatDate(userData.createdAt)}</p>
+            <p><strong>Registration Date:</strong> {formatDate(userData.createdAt)}</p>
           </div>
         </div>
         
         {error && <p className="error-message full-width-error">{error}</p>}
 
+        <div className="profile-section test-results-section">
+          <h2>Test Results</h2>
+          {testResults ? (
+            <div className="test-results-grid">
+              {Object.entries(testResults).map(([categoryId, result]) => (
+                <div key={categoryId} className="test-result-card">
+                  <h3>{getTestCategoryName(categoryId)}</h3>
+                  <div className="test-stats">
+                    <p>
+                      <strong>Best Score:</strong> {result.bestScore}%
+                    </p>
+                    <p>
+                      <strong>Last Score:</strong> {result.lastScore}%
+                    </p>
+                    <p>
+                      <strong>Attempts:</strong> {result.attempts}
+                    </p>
+                    <p>
+                      <strong>Last Attempt:</strong> {formatDate(result.lastAttempt)}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="no-results">You haven't taken any tests yet. <Link to="/tests">Try now</Link></p>
+          )}
+        </div>
+
         <div className="profile-section favorites-section">
-          <h2>Улюблені гранати ({favoriteNades.length})</h2>
+          <h2>Favorite Nades ({favoriteNades.length})</h2>
           {favoriteNades.length > 0 ? (
             <ul className="favorites-list">
               {favoriteNades.map(nade => (
@@ -192,24 +246,24 @@ function UserProfilePage() {
                     style={{cursor: 'pointer'}}
                   >
                     <span className="favorite-nade-title">{nade.title}</span>
-                    <span className="favorite-map-name">(Мапа: {nade.mapName})</span>
+                    <span className="favorite-map-name">(Map: {nade.mapName})</span>
                   </div>
                   <button 
                     onClick={() => handleRemoveFromFavorites(nade.mapId, nade.nadeId)}
                     className="remove-favorite-button"
                   >
-                    Видалити
+                    Remove
                   </button>
                 </li>
               ))}
             </ul>
           ) : (
-            <p>У вас ще немає улюблених гранат.</p>
+            <p className="no-favorites">You don't have any favorite nades yet</p>
           )}
         </div>
 
         <div className="profile-section video-stats-section">
-          <h2>Статистика переглядів відео (Всього: {totalViews})</h2>
+          <h2>Video Views Statistics (Total: {totalViews})</h2>
           {Object.keys(videoViewStats).length > 0 ? (
             <ul className="video-stats-list">
               {Object.entries(videoViewStats)
@@ -217,12 +271,12 @@ function UserProfilePage() {
                 .map(([nadeKey, count]) => (
                 <li key={nadeKey} className="video-stat-item">
                   <span className="video-stat-title">{getNadeTitleForViewStat(nadeKey)}</span>
-                  <span className="video-stat-count">Переглядів: {count}</span>
+                  <span className="video-stat-count">Views: {count}</span>
                 </li>
               ))}
             </ul>
           ) : (
-            <p>Ви ще не переглядали жодного відео з туторіалами.</p>
+            <p>You haven't watched any tutorial videos yet.</p>
           )}
         </div>
 

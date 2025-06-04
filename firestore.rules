@@ -1,0 +1,67 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Колекція users:
+    match /users/{userId} {
+      allow read, update: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Колекція map_lineups:
+    match /map_lineups/{mapId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+
+      // Підколекція map_comments
+      match /map_comments/{commentId} {
+        allow read: if request.auth != null;
+
+        allow create: if request.auth != null &&
+                     request.resource.data.userId == request.auth.uid &&
+                     request.resource.data.nadeId != null &&
+                     request.resource.data.text is string &&
+                     request.resource.data.text.size() > 0 &&
+                     request.resource.data.text.size() < 1000;
+
+        allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+      }
+    }
+
+    // Колекція testResults:
+    match /testResults/{userId} {
+      // Дозволити читання та запис тільки власнику
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      // Додаткові правила валідації для результатів тестів
+      allow create: if request.auth != null && 
+                   request.auth.uid == userId &&
+                   request.resource.data.keys().hasAll(['lastScore', 'bestScore', 'attempts', 'lastAttempt']) &&
+                   request.resource.data.lastScore is number &&
+                   request.resource.data.lastScore >= 0 &&
+                   request.resource.data.lastScore <= 100 &&
+                   request.resource.data.bestScore is number &&
+                   request.resource.data.bestScore >= 0 &&
+                   request.resource.data.bestScore <= 100 &&
+                   request.resource.data.attempts is number &&
+                   request.resource.data.attempts > 0 &&
+                   request.resource.data.lastAttempt is string;
+
+      allow update: if request.auth != null && 
+                   request.auth.uid == userId &&
+                   request.resource.data.lastScore is number &&
+                   request.resource.data.lastScore >= 0 &&
+                   request.resource.data.lastScore <= 100 &&
+                   request.resource.data.bestScore is number &&
+                   request.resource.data.bestScore >= 0 &&
+                   request.resource.data.bestScore <= 100 &&
+                   request.resource.data.attempts is number &&
+                   request.resource.data.attempts > request.resource.data.attempts &&
+                   request.resource.data.lastAttempt is string;
+    }
+
+    // Заборонити доступ до всіх інших документів
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+} 

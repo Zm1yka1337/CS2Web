@@ -1,18 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../styles/Theory.css';
 
 function Theory() {
   const location = useLocation();
   const [activeSection, setActiveSection] = useState('peaks');
+  const [expandedCards, setExpandedCards] = useState([]);
+
+  const toggleCard = (cardId) => {
+    setExpandedCards(prev => 
+      prev.includes(cardId) 
+        ? prev.filter(id => id !== cardId)
+        : [...prev, cardId]
+    );
+  };
+
+  // Animation for skill bars
+  useEffect(() => {
+    const skillBars = document.querySelectorAll('.skill-bar[data-progress]');
+    skillBars.forEach(bar => {
+      const progress = bar.getAttribute('data-progress');
+      const progressBar = bar.querySelector('.skill-progress');
+      progressBar.style.width = progress;
+    });
+  }, [activeSection]);
 
   const sections = [
-    { id: 'peaks', name: 'Peeks' },
-    { id: 'movement', name: 'Movement' },
-    { id: 'sounds', name: 'Sounds' },
-    { id: 'utility', name: 'Utility' },
-    { id: 'positions', name: 'Positions' },
-    { id: 'economy', name: 'Economy' }
+    { id: 'peaks', name: 'Peeks', icon: 'visibility' },
+    { id: 'movement', name: 'Movement', icon: 'directions_run' },
+    { id: 'sounds', name: 'Sounds', icon: 'volume_up' },
+    { id: 'utility', name: 'Utility', icon: 'grid_view' },
+    { id: 'positions', name: 'Positions', icon: 'place' },
+    { id: 'economy', name: 'Economy', icon: 'payments' }
   ];
 
   const renderContent = () => {
@@ -31,7 +50,8 @@ function Theory() {
 
               <h4>Basic Peeking Techniques</h4>
               <div className="technique-cards">
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-1') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-1')}>
                   <h5>Wide Peek</h5>
                   <p>Swinging wide around a corner to clear multiple angles quickly.</p>
                   <div className="skill-bar">
@@ -43,9 +63,19 @@ function Theory() {
                     <li>When: Team support available</li>
                     <li>Avoid: ECO rounds</li>
                   </ul>
+                  <div className="expandable-content">
+                    <h6>Key Elements:</h6>
+                    <ul>
+                      <li>Perfect pre-aim at head level</li>
+                      <li>Aggressive wide peek</li>
+                      <li>Pre-fire common angles</li>
+                      <li>Maximum acceleration peeking</li>
+                    </ul>
+                  </div>
                 </div>
 
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-2') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-2')}>
                   <h5>Shoulder Peek</h5>
                   <p>Quick peek to bait out shots and gather information.</p>
                   <div className="skill-bar">
@@ -57,9 +87,19 @@ function Theory() {
                     <li>When: Unsure of enemy position</li>
                     <li>Combine with: Counter-strafing</li>
                   </ul>
+                  <div className="expandable-content">
+                    <h6>Key Elements:</h6>
+                    <ul>
+                      <li>Perfect counter-strafe</li>
+                      <li>Head-level crosshair</li>
+                      <li>Minimal exposure</li>
+                      <li>Single-bullet accuracy</li>
+                    </ul>
+                  </div>
                 </div>
 
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-3') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-3')}>
                   <h5>Jiggle Peek</h5>
                   <p>Rapid back and forth movement to spot enemies.</p>
                   <div className="skill-bar">
@@ -71,6 +111,15 @@ function Theory() {
                     <li>When: Checking common angles</li>
                     <li>Key: Rhythm timing</li>
                   </ul>
+                  <div className="expandable-content">
+                    <h6>Key Elements:</h6>
+                    <ul>
+                      <li>Perfect pre-aim at head level</li>
+                      <li>Aggressive wide peek</li>
+                      <li>Pre-fire common angles</li>
+                      <li>Maximum acceleration peeking</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
 
@@ -140,20 +189,19 @@ function Theory() {
                 </div>
               </div>
 
-              <div className="warning-box">
-                <strong>Remember:</strong> Never peek the same angle twice in the same way against good players!
-              </div>
+
 
               <h4>Pro Player Signature Peeks</h4>
               <div className="technique-cards">
-                <div className="pro-peek-card">
+                <div className={`technique-card ${expandedCards.includes('card-4') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-4')}>
                   <h5>XANTARES Peek</h5>
                   <div className="player-info">
                     <span>İsmailcan Dörtkardeş</span>
                     <span>Known for: Aggressive pre-firing</span>
                   </div>
                   <p>An extremely aggressive peek style with perfect pre-aim and pre-fire timing.</p>
-                  <div className="peek-details">
+                  <div className="expandable-content">
                     <h6>Key Elements:</h6>
                     <ul>
                       <li>Perfect pre-aim at head level</li>
@@ -161,22 +209,18 @@ function Theory() {
                       <li>Pre-fire common angles</li>
                       <li>Maximum acceleration peeking</li>
                     </ul>
-                    <div className="map-spots">
-                      <span className="map-spot">Mirage Palace</span>
-                      <span className="map-spot">Inferno Apps</span>
-                      <span className="map-spot">Ancient Donut</span>
-                    </div>
                   </div>
                 </div>
 
-                <div className="pro-peek-card">
+                <div className={`technique-card ${expandedCards.includes('card-5') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-5')}>
                   <h5>Ferrari Peek</h5>
                   <div className="player-info">
                     <span>Named after fast cars</span>
                     <span>Type: Speed peek technique</span>
                   </div>
                   <p>Ultra-fast wide swing with maximum acceleration, often used with SMGs or rifles.</p>
-                  <div className="peek-details">
+                  <div className="expandable-content">
                     <h6>Key Elements:</h6>
                     <ul>
                       <li>Maximum speed peek</li>
@@ -184,22 +228,18 @@ function Theory() {
                       <li>Surprise factor</li>
                       <li>Good for multi-kills</li>
                     </ul>
-                    <div className="map-spots">
-                      <span className="map-spot">Dust2 Short</span>
-                      <span className="map-spot">Mirage B Apps</span>
-                      <span className="map-spot">Inferno Mid</span>
-                    </div>
                   </div>
                 </div>
 
-                <div className="pro-peek-card">
+                <div className={`technique-card ${expandedCards.includes('card-6') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-6')}>
                   <h5>ScreaM Peek</h5>
                   <div className="player-info">
                     <span>Adil Benrlitom</span>
                     <span>Known for: One-taps</span>
                   </div>
                   <p>Perfect counter-strafe peek with precise head-level one-tap accuracy.</p>
-                  <div className="peek-details">
+                  <div className="expandable-content">
                     <h6>Key Elements:</h6>
                     <ul>
                       <li>Perfect counter-strafe</li>
@@ -207,18 +247,14 @@ function Theory() {
                       <li>Minimal exposure</li>
                       <li>Single-bullet accuracy</li>
                     </ul>
-                    <div className="map-spots">
-                      <span className="map-spot">Dust2 Long</span>
-                      <span className="map-spot">Cache Mid</span>
-                      <span className="map-spot">Mirage Connect</span>
-                    </div>
                   </div>
                 </div>
               </div>
 
               <h4>Common Mistakes</h4>
               <div className="technique-cards">
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-7') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-7')}>
                   <h5>Over-peeking</h5>
                   <p>Exposing yourself to too many angles at once.</p>
                   <ul>
@@ -227,7 +263,8 @@ function Theory() {
                     <li>Have escape route ready</li>
                   </ul>
                 </div>
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-8') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-8')}>
                   <h5>Static Peeking</h5>
                   <p>Peeking without proper movement technique.</p>
                   <ul>
@@ -236,7 +273,8 @@ function Theory() {
                     <li>Vary peek timing</li>
                   </ul>
                 </div>
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-9') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-9')}>
                   <h5>Predictable Patterns</h5>
                   <p>Using the same peeking pattern repeatedly.</p>
                   <ul>
@@ -245,6 +283,15 @@ function Theory() {
                     <li>Use utility to disrupt</li>
                   </ul>
                 </div>
+              </div>
+              <div className="warning-box">
+                <strong>Remember:</strong> Never peek the same angle twice in the same way against good players!
+                <ul>
+                  <li>Keep crosshair at head level</li>
+                  <li>Pre-aim common angles</li>
+                  <li>Always have a purpose when peeking</li>
+                  <li>Communicate with your team</li>
+                </ul>
               </div>
             </div>
           </div>
@@ -312,7 +359,8 @@ function Theory() {
 
               <h4>Advanced Movement Concepts</h4>
               <div className="technique-cards">
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-10') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-10')}>
                   <h4>Silent Landing</h4>
                   <p>Landing without making sound by using crouch.</p>
                   <div className="skill-bar">
@@ -326,7 +374,8 @@ function Theory() {
                   </ul>
                 </div>
 
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-11') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-11')}>
                   <h4>Run Boosting</h4>
                   <p>Boosting teammate by running into them while they jump.</p>
                   <div className="skill-bar">
@@ -340,7 +389,8 @@ function Theory() {
                   </ul>
                 </div>
 
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-12') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-12')}>
                   <h4>Surf Movement</h4>
                   <p>Using angled surfaces to maintain speed.</p>
                   <div className="skill-bar">
@@ -371,12 +421,6 @@ function Theory() {
                     <td>250</td>
                     <td>Loud</td>
                     <td>Fast rotations, rushing</td>
-                  </tr>
-                  <tr>
-                    <td>Walking</td>
-                    <td>130</td>
-                    <td>Quiet</td>
-                    <td>Close combat positioning</td>
                   </tr>
                   <tr>
                     <td>Crouching</td>
@@ -423,7 +467,8 @@ function Theory() {
 
               <h4>Common Movement Mistakes</h4>
               <div className="technique-cards">
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-13') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-13')}>
                   <h5>Poor Counter-strafing</h5>
                   <p>Not stopping completely before shooting.</p>
                   <ul>
@@ -432,7 +477,8 @@ function Theory() {
                     <li>Start slow, build speed</li>
                   </ul>
                 </div>
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-14') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-14')}>
                   <h5>Predictable Movement</h5>
                   <p>Moving in straight lines or patterns.</p>
                   <ul>
@@ -441,7 +487,8 @@ function Theory() {
                     <li>Combine techniques</li>
                   </ul>
                 </div>
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-15') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-15')}>
                   <h5>Noisy Movement</h5>
                   <p>Making unnecessary sound.</p>
                   <ul>
@@ -450,6 +497,16 @@ function Theory() {
                     <li>Know sound ranges</li>
                   </ul>
                 </div>
+              </div>
+
+              <div className="warning-box">
+                <strong>Remember:</strong> Good movement is the foundation of survival and accuracy!
+                <ul>
+                  <li>Master counter-strafing first</li>
+                  <li>Practice movement daily</li>
+                  <li>Stay unpredictable</li>
+                  <li>Know when to walk</li>
+                </ul>
               </div>
             </div>
           </div>
@@ -469,7 +526,8 @@ function Theory() {
 
               <h4>Sound Categories</h4>
               <div className="technique-cards">
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-16') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-16')}>
                   <h5>Movement Sounds</h5>
                   <div className="skill-bar" data-progress="90%">
                     <div className="skill-progress" style={{ width: '90%' }}></div>
@@ -481,10 +539,13 @@ function Theory() {
                     <li>Shift-walking: Silent</li>
                     <li>Crouch-walking: Silent</li>
                     <li>Landing sounds: Based on fall height</li>
+                    <li>Ladder movement: Distinct sound</li>
+                    <li>Surface-specific sounds</li>
                   </ul>
                 </div>
 
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-17') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-17')}>
                   <h5>Weapon Sounds</h5>
                   <div className="skill-bar" data-progress="85%">
                     <div className="skill-progress" style={{ width: '85%' }}></div>
@@ -495,10 +556,13 @@ function Theory() {
                     <li>Reloading: Multiple phases</li>
                     <li>Scope: AWP/Scout specific</li>
                     <li>Weapon switch: Tactical info</li>
+                    <li>Weapon drops: Location info</li>
+                    <li>Knife sounds: Close combat</li>
                   </ul>
                 </div>
 
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-18') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-18')}>
                   <h5>Utility Sounds</h5>
                   <div className="skill-bar" data-progress="80%">
                     <div className="skill-progress" style={{ width: '80%' }}></div>
@@ -509,9 +573,49 @@ function Theory() {
                     <li>Bounces: Location info</li>
                     <li>Explosions: Area denial</li>
                     <li>Molotov: Area control</li>
+                    <li>Smoke deploy: Setup timing</li>
+                    <li>Flash pop: Entry timing</li>
                   </ul>
                 </div>
               </div>
+
+              <h4>Sound Ranges</h4>
+              <table className="theory-table">
+                <thead>
+                  <tr>
+                    <th>Action</th>
+                    <th>Range (units)</th>
+                    <th>Through Walls</th>
+                    <th>Strategic Use</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Running</td>
+                    <td>800</td>
+                    <td>Reduced 50%</td>
+                    <td>Rotation timing</td>
+                  </tr>
+                  <tr>
+                    <td>Walking</td>
+                    <td>400</td>
+                    <td>Reduced 70%</td>
+                    <td>Close quarters</td>
+                  </tr>
+                  <tr>
+                    <td>Landing (High)</td>
+                    <td>1000</td>
+                    <td>Reduced 40%</td>
+                    <td>Position reveal</td>
+                  </tr>
+                  <tr>
+                    <td>Gunfire</td>
+                    <td>2000+</td>
+                    <td>Reduced 30%</td>
+                    <td>Location info</td>
+                  </tr>
+                </tbody>
+              </table>
 
               <h4>Sound Masking Techniques</h4>
               <div className="flow-diagram">
@@ -521,6 +625,7 @@ function Theory() {
                     <li>Use utility explosions</li>
                     <li>Time steps with gunfire</li>
                     <li>Coordinate with team</li>
+                    <li>Fake steps timing</li>
                   </ul>
                 </div>
                 <div className="flow-step">
@@ -529,6 +634,7 @@ function Theory() {
                     <li>Fake utility sounds</li>
                     <li>Multi-level sound play</li>
                     <li>Sound baiting</li>
+                    <li>Step synchronization</li>
                   </ul>
                 </div>
                 <div className="flow-step">
@@ -537,42 +643,59 @@ function Theory() {
                     <li>Synchronized pushes</li>
                     <li>Split sound distractions</li>
                     <li>Rotational fakes</li>
+                    <li>Sound-based executes</li>
                   </ul>
                 </div>
               </div>
 
-              <h4>Sound Settings</h4>
-              <table className="theory-table">
-                <thead>
-                  <tr>
-                    <th>Setting</th>
-                    <th>Recommended Value</th>
-                    <th>Purpose</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Audio Output</td>
-                    <td>Headphones</td>
-                    <td>Better directional audio</td>
-                  </tr>
-                  <tr>
-                    <td>Volume</td>
-                    <td>0.5-0.7</td>
-                    <td>Protect hearing while maintaining info</td>
-                  </tr>
-                  <tr>
-                    <td>Music Volume</td>
-                    <td>0.1-0.2</td>
-                    <td>Round cues only</td>
-                  </tr>
-                  <tr>
-                    <td>Voice Scale</td>
-                    <td>0.8</td>
-                    <td>Clear team comms</td>
-                  </tr>
-                </tbody>
-              </table>
+              <h4>Sound-Based Decision Making</h4>
+              <div className="technique-cards">
+                <div className={`technique-card ${expandedCards.includes('sound-card-1') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('sound-card-1')}>
+                  <h5>Information Gathering</h5>
+                  <p>Using sound cues to gather intel about enemy positions and intentions.</p>
+                  <ul>
+                    <li>Count utility usage</li>
+                    <li>Track rotations</li>
+                    <li>Identify weapons</li>
+                    <li>Predict setups</li>
+                  </ul>
+                </div>
+
+                <div className={`technique-card ${expandedCards.includes('sound-card-2') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('sound-card-2')}>
+                  <h5>Tactical Responses</h5>
+                  <p>How to react to different sound information.</p>
+                  <ul>
+                    <li>Counter-rotate</li>
+                    <li>Stack sites</li>
+                    <li>Timing pushes</li>
+                    <li>Save utility</li>
+                  </ul>
+                </div>
+
+                <div className={`technique-card ${expandedCards.includes('sound-card-3') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('sound-card-3')}>
+                  <h5>Common Mistakes</h5>
+                  <p>Sound-related errors to avoid.</p>
+                  <ul>
+                    <li>Unnecessary noise</li>
+                    <li>Predictable timing</li>
+                    <li>Poor coordination</li>
+                    <li>Missing key sounds</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="warning-box">
+                <strong>Pro Tip:</strong> Always use a good headset and optimize your audio settings for better sound recognition.
+                <ul>
+                  <li>Use stereo audio settings</li>
+                  <li>Disable music during gameplay</li>
+                  <li>Adjust HRTF settings</li>
+                  <li>Keep volume at a comfortable level</li>
+                </ul>
+              </div>
             </div>
           </div>
         );
@@ -591,7 +714,8 @@ function Theory() {
 
               <h4>Utility Types</h4>
               <div className="technique-cards">
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-19') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-19')}>
                   <h5>Smoke Grenades</h5>
                   <div className="skill-bar" data-progress="95%">
                     <div className="skill-progress" style={{ width: '95%' }}></div>
@@ -602,18 +726,14 @@ function Theory() {
                     <li>One-way setups</li>
                     <li>Retake support</li>
                     <li>Map control</li>
+                    <li>Fake executes</li>
+                    <li>Cross coverage</li>
+                    <li>Rotation masking</li>
                   </ul>
-                  <div className="peek-details">
-                    <h6>Advanced Techniques:</h6>
-                    <ul>
-                      <li>Gap smokes for info</li>
-                      <li>Fake executes</li>
-                      <li>Smoke stacking</li>
-                    </ul>
-                  </div>
                 </div>
 
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-20') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-20')}>
                   <h5>Flashbangs</h5>
                   <div className="skill-bar" data-progress="90%">
                     <div className="skill-progress" style={{ width: '90%' }}></div>
@@ -624,18 +744,14 @@ function Theory() {
                     <li>Support flashes</li>
                     <li>Retake flashes</li>
                     <li>Counter flashes</li>
+                    <li>Deep flashes</li>
+                    <li>Team flashes</li>
+                    <li>Flash timing</li>
                   </ul>
-                  <div className="peek-details">
-                    <h6>Advanced Techniques:</h6>
-                    <ul>
-                      <li>Run throw timing</li>
-                      <li>Team flash setups</li>
-                      <li>Flash baiting</li>
-                    </ul>
-                  </div>
                 </div>
 
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-21') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-21')}>
                   <h5>Molotovs/Incendiaries</h5>
                   <div className="skill-bar" data-progress="85%">
                     <div className="skill-progress" style={{ width: '85%' }}></div>
@@ -646,42 +762,47 @@ function Theory() {
                     <li>Post-plant denial</li>
                     <li>Rush stopping</li>
                     <li>Force movement</li>
+                    <li>Site splits</li>
+                    <li>Retake delay</li>
+                    <li>Plant denial</li>
                   </ul>
-                  <div className="peek-details">
-                    <h6>Advanced Techniques:</h6>
-                    <ul>
-                      <li>Molotov lineups</li>
-                      <li>Combo utility</li>
-                      <li>Timing plays</li>
-                    </ul>
-                  </div>
                 </div>
               </div>
 
-              <h4>Economy Management</h4>
+              <h4>Advanced Utility Mechanics</h4>
               <table className="theory-table">
                 <thead>
                   <tr>
-                    <th>Round Type</th>
-                    <th>Utility Priority</th>
-                    <th>Investment</th>
+                    <th>Technique</th>
+                    <th>Execution</th>
+                    <th>Purpose</th>
+                    <th>Difficulty</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Full Buy</td>
-                    <td>Full utility</td>
-                    <td>$1000-1400</td>
+                    <td>Jump Throw</td>
+                    <td>Jump + Release</td>
+                    <td>Long distances</td>
+                    <td>Medium</td>
                   </tr>
                   <tr>
-                    <td>Force Buy</td>
-                    <td>Flash + Smoke</td>
-                    <td>$500-700</td>
+                    <td>Run Throw</td>
+                    <td>Run + Release</td>
+                    <td>Dynamic throws</td>
+                    <td>Hard</td>
                   </tr>
                   <tr>
-                    <td>Eco</td>
-                    <td>Flash only</td>
-                    <td>$200-300</td>
+                    <td>Pop Flash</td>
+                    <td>Quick release</td>
+                    <td>Instant blind</td>
+                    <td>Medium</td>
+                  </tr>
+                  <tr>
+                    <td>One-way</td>
+                    <td>Precise lineup</td>
+                    <td>Advantage peek</td>
+                    <td>Hard</td>
                   </tr>
                 </tbody>
               </table>
@@ -694,6 +815,7 @@ function Theory() {
                     <li>Flash for info</li>
                     <li>Clear close angles</li>
                     <li>Establish control</li>
+                    <li>Check corners</li>
                   </ul>
                 </div>
                 <div className="flow-step">
@@ -702,6 +824,7 @@ function Theory() {
                     <li>Smoke key angles</li>
                     <li>Molotov common spots</li>
                     <li>Flash through smokes</li>
+                    <li>Trade positions</li>
                   </ul>
                 </div>
                 <div className="flow-step">
@@ -710,8 +833,58 @@ function Theory() {
                     <li>Save utility</li>
                     <li>Delay defuse</li>
                     <li>Cover exits</li>
+                    <li>Molly plant</li>
                   </ul>
                 </div>
+              </div>
+
+              <h4>Utility Combinations</h4>
+              <div className="technique-cards">
+                <div className={`technique-card ${expandedCards.includes('util-card-1') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('util-card-1')}>
+                  <h5>Double Smoke Setup</h5>
+                  <p>Using two smokes to create a safe path or split site.</p>
+                  <ul>
+                    <li>Cross smoke</li>
+                    <li>Deep smoke</li>
+                    <li>Gap control</li>
+                    <li>Timing sync</li>
+                  </ul>
+                </div>
+
+                <div className={`technique-card ${expandedCards.includes('util-card-2') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('util-card-2')}>
+                  <h5>Flash + Molotov</h5>
+                  <p>Combining flash and molotov for maximum effect.</p>
+                  <ul>
+                    <li>Force movement</li>
+                    <li>Clear angles</li>
+                    <li>Trade setup</li>
+                    <li>Area control</li>
+                  </ul>
+                </div>
+
+                <div className={`technique-card ${expandedCards.includes('util-card-3') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('util-card-3')}>
+                  <h5>Triple Utility</h5>
+                  <p>Complex executes using multiple utility types.</p>
+                  <ul>
+                    <li>Site split</li>
+                    <li>Retake setup</li>
+                    <li>Full clear</li>
+                    <li>Map control</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="warning-box">
+                <strong>Important:</strong> Practice utility lineups in offline mode first!
+                <ul>
+                  <li>Learn basic lineups</li>
+                  <li>Master jump throws</li>
+                  <li>Practice timing</li>
+                  <li>Know alternatives</li>
+                </ul>
               </div>
             </div>
           </div>
@@ -731,7 +904,8 @@ function Theory() {
 
               <h4>Position Types</h4>
               <div className="technique-cards">
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-22') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-22')}>
                   <h5>Anchor Positions</h5>
                   <div className="skill-bar" data-progress="90%">
                     <div className="skill-progress" style={{ width: '90%' }}></div>
@@ -742,10 +916,14 @@ function Theory() {
                     <li>Multiple fall back spots</li>
                     <li>Utility usage positions</li>
                     <li>Crossfire setups</li>
+                    <li>Information spots</li>
+                    <li>Rotation paths</li>
+                    <li>Support positions</li>
                   </ul>
                 </div>
 
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-23') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-23')}>
                   <h5>Aggressive Positions</h5>
                   <div className="skill-bar" data-progress="85%">
                     <div className="skill-progress" style={{ width: '85%' }}></div>
@@ -756,10 +934,14 @@ function Theory() {
                     <li>Pick potential</li>
                     <li>Fall back routes</li>
                     <li>Support positions</li>
+                    <li>Timing abuse</li>
+                    <li>Utility denial</li>
+                    <li>Rotation control</li>
                   </ul>
                 </div>
 
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-24') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-24')}>
                   <h5>Retake Positions</h5>
                   <div className="skill-bar" data-progress="80%">
                     <div className="skill-progress" style={{ width: '80%' }}></div>
@@ -770,9 +952,50 @@ function Theory() {
                     <li>Crossfire angles</li>
                     <li>Safe plant spots</li>
                     <li>Trade positions</li>
+                    <li>Timing positions</li>
+                    <li>Post-plant spots</li>
+                    <li>Exit control</li>
                   </ul>
                 </div>
               </div>
+
+              <h4>Advanced Position Concepts</h4>
+              <table className="theory-table">
+                <thead>
+                  <tr>
+                    <th>Concept</th>
+                    <th>Description</th>
+                    <th>Usage</th>
+                    <th>Risk Level</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Off-Angles</td>
+                    <td>Unexpected positions</td>
+                    <td>Surprise factor</td>
+                    <td>High</td>
+                  </tr>
+                  <tr>
+                    <td>Crossfire</td>
+                    <td>Multiple angle coverage</td>
+                    <td>Site defense</td>
+                    <td>Medium</td>
+                  </tr>
+                  <tr>
+                    <td>Bait Setup</td>
+                    <td>Trade position</td>
+                    <td>Team play</td>
+                    <td>Medium</td>
+                  </tr>
+                  <tr>
+                    <td>One-Way</td>
+                    <td>Advantageous angle</td>
+                    <td>Map control</td>
+                    <td>High</td>
+                  </tr>
+                </tbody>
+              </table>
 
               <h4>Map Control Phases</h4>
               <div className="flow-diagram">
@@ -782,6 +1005,7 @@ function Theory() {
                     <li>Default positions</li>
                     <li>Info gathering</li>
                     <li>Utility setup</li>
+                    <li>Map control</li>
                   </ul>
                 </div>
                 <div className="flow-step">
@@ -790,6 +1014,7 @@ function Theory() {
                     <li>Rotation positions</li>
                     <li>Map control</li>
                     <li>Trade setups</li>
+                    <li>Execute positions</li>
                   </ul>
                 </div>
                 <div className="flow-step">
@@ -798,37 +1023,59 @@ function Theory() {
                     <li>Plant positions</li>
                     <li>After plant spots</li>
                     <li>Retake angles</li>
+                    <li>Exit control</li>
                   </ul>
                 </div>
               </div>
 
               <h4>Position Adaptation</h4>
-              <table className="theory-table">
-                <thead>
-                  <tr>
-                    <th>Scenario</th>
-                    <th>Position Type</th>
-                    <th>Adjustment</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Enemy Force Buy</td>
-                    <td>Anti-rush</td>
-                    <td>Close angles, utility ready</td>
-                  </tr>
-                  <tr>
-                    <td>Man Advantage</td>
-                    <td>Passive</td>
-                    <td>Safe positions, trade setup</td>
-                  </tr>
-                  <tr>
-                    <td>Man Disadvantage</td>
-                    <td>Aggressive</td>
-                    <td>Info gathering, pick potential</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div className="technique-cards">
+                <div className={`technique-card ${expandedCards.includes('pos-card-1') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('pos-card-1')}>
+                  <h5>Reading Enemy Patterns</h5>
+                  <p>Adapting positions based on enemy tendencies.</p>
+                  <ul>
+                    <li>Track aggression</li>
+                    <li>Note utility usage</li>
+                    <li>Identify defaults</li>
+                    <li>Counter positions</li>
+                  </ul>
+                </div>
+
+                <div className={`technique-card ${expandedCards.includes('pos-card-2') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('pos-card-2')}>
+                  <h5>Economy Based</h5>
+                  <p>Adjusting positions based on equipment.</p>
+                  <ul>
+                    <li>Anti-eco spots</li>
+                    <li>Force buy positions</li>
+                    <li>AWP angles</li>
+                    <li>Utility heavy spots</li>
+                  </ul>
+                </div>
+
+                <div className={`technique-card ${expandedCards.includes('pos-card-3') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('pos-card-3')}>
+                  <h5>Team Composition</h5>
+                  <p>Positions based on team setup.</p>
+                  <ul>
+                    <li>Support player</li>
+                    <li>Entry positions</li>
+                    <li>AWPer spots</li>
+                    <li>Lurk positions</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="warning-box">
+                <strong>Remember:</strong> Position is nothing without proper crosshair placement and awareness!
+                <ul>
+                  <li>Keep crosshair at head level</li>
+                  <li>Pre-aim common spots</li>
+                  <li>Check angles systematically</li>
+                  <li>Listen for information</li>
+                </ul>
+              </div>
             </div>
           </div>
         );
@@ -852,6 +1099,7 @@ function Theory() {
                     <th>Action</th>
                     <th>Reward</th>
                     <th>Notes</th>
+                    <th>Strategy</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -859,28 +1107,45 @@ function Theory() {
                     <td>Round Win (T)</td>
                     <td>$3500</td>
                     <td>Base reward</td>
+                    <td>Build bank</td>
                   </tr>
                   <tr>
                     <td>Round Win (CT)</td>
                     <td>$3250</td>
                     <td>Base reward</td>
+                    <td>Utility focus</td>
                   </tr>
                   <tr>
                     <td>Kill Reward</td>
                     <td>$300-3000</td>
                     <td>Weapon dependent</td>
+                    <td>SMG bonus</td>
                   </tr>
                   <tr>
                     <td>Bomb Plant</td>
                     <td>$300</td>
                     <td>Per player</td>
+                    <td>Economy boost</td>
+                  </tr>
+                  <tr>
+                    <td>Defuse</td>
+                    <td>$300</td>
+                    <td>Individual</td>
+                    <td>Kit priority</td>
+                  </tr>
+                  <tr>
+                    <td>Loss Bonus</td>
+                    <td>$1400-3400</td>
+                    <td>Consecutive losses</td>
+                    <td>Force potential</td>
                   </tr>
                 </tbody>
               </table>
 
               <h4>Buy Strategies</h4>
               <div className="technique-cards">
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-25') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-25')}>
                   <h5>Full Buy</h5>
                   <div className="skill-bar" data-progress="100%">
                     <div className="skill-progress" style={{ width: '100%' }}></div>
@@ -891,10 +1156,14 @@ function Theory() {
                     <li>Full armor</li>
                     <li>Full utility</li>
                     <li>Kit (CT)</li>
+                    <li>Drop weapons</li>
+                    <li>Save extra</li>
+                    <li>AWP potential</li>
                   </ul>
                 </div>
 
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-26') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-26')}>
                   <h5>Force Buy</h5>
                   <div className="skill-bar" data-progress="60%">
                     <div className="skill-progress" style={{ width: '60%' }}></div>
@@ -905,10 +1174,14 @@ function Theory() {
                     <li>Light/no armor</li>
                     <li>Basic utility</li>
                     <li>High risk/reward</li>
+                    <li>Team coordination</li>
+                    <li>Map dependent</li>
+                    <li>Timing based</li>
                   </ul>
                 </div>
 
-                <div className="technique-card">
+                <div className={`technique-card ${expandedCards.includes('card-27') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('card-27')}>
                   <h5>Eco Round</h5>
                   <div className="skill-bar" data-progress="30%">
                     <div className="skill-progress" style={{ width: '30%' }}></div>
@@ -919,9 +1192,50 @@ function Theory() {
                     <li>Minimal utility</li>
                     <li>Save money</li>
                     <li>Info gathering</li>
+                    <li>Stack potential</li>
+                    <li>Rush tactics</li>
+                    <li>Surprise factor</li>
                   </ul>
                 </div>
               </div>
+
+              <h4>Advanced Economy Concepts</h4>
+              <table className="theory-table">
+                <thead>
+                  <tr>
+                    <th>Concept</th>
+                    <th>Description</th>
+                    <th>When to Use</th>
+                    <th>Risk Level</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Double Save</td>
+                    <td>Save two rounds</td>
+                    <td>After pistol loss</td>
+                    <td>Low</td>
+                  </tr>
+                  <tr>
+                    <td>Glass Cannon</td>
+                    <td>AWP no armor</td>
+                    <td>Force rounds</td>
+                    <td>High</td>
+                  </tr>
+                  <tr>
+                    <td>Half Buy</td>
+                    <td>Mixed equipment</td>
+                    <td>Uncertain economy</td>
+                    <td>Medium</td>
+                  </tr>
+                  <tr>
+                    <td>Hero AK/M4</td>
+                    <td>One rifle rest eco</td>
+                    <td>Limited funds</td>
+                    <td>High</td>
+                  </tr>
+                </tbody>
+              </table>
 
               <h4>Loss Bonus System</h4>
               <div className="flow-diagram">
@@ -931,6 +1245,8 @@ function Theory() {
                   <ul>
                     <li>Basic pistol buy</li>
                     <li>Save for next</li>
+                    <li>Stack sites</li>
+                    <li>Rush potential</li>
                   </ul>
                 </div>
                 <div className="flow-step">
@@ -939,6 +1255,8 @@ function Theory() {
                   <ul>
                     <li>Force buy potential</li>
                     <li>Light utility</li>
+                    <li>Team buy</li>
+                    <li>Map control</li>
                   </ul>
                 </div>
                 <div className="flow-step">
@@ -947,12 +1265,59 @@ function Theory() {
                   <ul>
                     <li>Full buy possible</li>
                     <li>Reset risk</li>
+                    <li>Utility focus</li>
+                    <li>Strategic play</li>
+                  </ul>
+                </div>
+              </div>
+
+              <h4>Economy Management Tips</h4>
+              <div className="technique-cards">
+                <div className={`technique-card ${expandedCards.includes('eco-card-1') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('eco-card-1')}>
+                  <h5>Team Coordination</h5>
+                  <p>Working together for optimal economy.</p>
+                  <ul>
+                    <li>Drop weapons</li>
+                    <li>Share utility</li>
+                    <li>Save together</li>
+                    <li>Coordinate buys</li>
+                  </ul>
+                </div>
+
+                <div className={`technique-card ${expandedCards.includes('eco-card-2') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('eco-card-2')}>
+                  <h5>Map Economics</h5>
+                  <p>Adapting economy to map control.</p>
+                  <ul>
+                    <li>Control bonuses</li>
+                    <li>Save positions</li>
+                    <li>Exit frags</li>
+                    <li>Weapon recovery</li>
+                  </ul>
+                </div>
+
+                <div className={`technique-card ${expandedCards.includes('eco-card-3') ? 'expanded' : ''}`} 
+                     onClick={() => toggleCard('eco-card-3')}>
+                  <h5>Round Planning</h5>
+                  <p>Future round considerations.</p>
+                  <ul>
+                    <li>Buy forecasting</li>
+                    <li>Save rounds</li>
+                    <li>Force timing</li>
+                    <li>Reset prevention</li>
                   </ul>
                 </div>
               </div>
 
               <div className="warning-box">
-                <strong>Important:</strong> Always communicate your buy decisions with your team and track enemy economy!
+                <strong>Important:</strong> Always communicate your economic situation with your team!
+                <ul>
+                  <li>Share money status</li>
+                  <li>Plan future rounds</li>
+                  <li>Coordinate drops</li>
+                  <li>Track enemy economy</li>
+                </ul>
               </div>
             </div>
           </div>
@@ -972,6 +1337,7 @@ function Theory() {
             className={`theory-nav-button ${activeSection === section.id ? 'active' : ''}`}
             onClick={() => setActiveSection(section.id)}
           >
+            <span className="nav-icon material-icons">{section.icon}</span>
             {section.name}
           </button>
         ))}

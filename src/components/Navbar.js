@@ -36,6 +36,12 @@ function Navbar({ currentUser, toggleTheme, currentTheme }) {
           >
             Theory
           </Link>
+          <Link 
+            to="/tests" 
+            className={location.pathname === '/tests' ? 'active' : ''}
+          >
+            Tests
+          </Link>
         </div>
         <button onClick={toggleTheme} className="theme-toggle-button" aria-label="Toggle theme">
           <img 

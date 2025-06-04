@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import UserProfilePage from './pages/UserProfilePage';
 import Theory from './components/Theory';
+import Tests from './components/Tests';
 import { onAuthStatusChanged } from './services/firebaseService';
 import './styles/App.css';
 
@@ -65,6 +66,7 @@ function App() {
             <Route path="/map/:mapId" element={<MapDetails />} />
             <Route path="/map/:mapId/nade/:nadeId" element={<NadeDetails />} />
             <Route path="/theory" element={<Theory />} />
+            <Route path="/tests" element={<Tests />} />
             <Route path="/login" element={!currentUser ? <LoginPage /> : <Navigate to="/profile" />} />
             <Route path="/register" element={!currentUser ? <RegisterPage /> : <Navigate to="/profile" />} />
             <Route 
